@@ -334,10 +334,7 @@ function showAutocomplete() {
         const fullName = char.surname + char.name;
         const item = document.createElement('div');
         item.className = 'autocomplete-item';
-        item.innerHTML = `
-            <span class="autocomplete-name">${fullName}</span>
-            <span class="autocomplete-info">${char.force} · ${char.identity}</span>
-        `;
+        item.textContent = fullName;
         item.addEventListener('click', () => {
             input.value = fullName;
             list.style.display = 'none';
