@@ -87,26 +87,40 @@ def get_relation(char_id_1, char_id_2):
     conn = get_connection()
     cursor = conn.cursor()
     
+    relations = []
+    
+    # 查询两个人物共同参与的事件
     cursor.execute('''
-        SELECT relation_type, event_name FROM relations 
+        SELECT DISTINCT e.event_name, e.event_type
+        FROM character_events ce1
+        JOIN character_events ce2 ON ce1.event_id = ce2.event_id
+        JOIN events e ON ce1.event_id = e.id
+        WHERE ce1.character_id = ? AND ce2.character_id = ?
+    ''', (char_id_1, char_id_2))
+    
+    events = cursor.fetchall()
+    for event in events:
+        relations.append({
+            'type': event['event_type'],
+            'event': event['event_name']
+        })
+    
+    # 查询亲属关系
+    cursor.execute('''
+        SELECT relation_name FROM family_relations
         WHERE (char_id_1 = ? AND char_id_2 = ?) OR (char_id_1 = ? AND char_id_2 = ?)
     ''', (char_id_1, char_id_2, char_id_2, char_id_1))
     
-    results = cursor.fetchall()
-    conn.close()
-    
-    if not results:
-        return None
-    
-    # 返回所有关系
-    relations = []
-    for result in results:
+    family = cursor.fetchone()
+    if family:
         relations.append({
-            'type': result['relation_type'],
-            'event': result['event_name']
+            'type': '亲属',
+            'event': family['relation_name']
         })
     
-    return relations
+    conn.close()
+    
+    return relations if relations else None
 
 def compare_characters(guess_char, answer_char):
     """比较两个人物，返回提示"""

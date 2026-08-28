@@ -1,5 +1,5 @@
 from database import get_connection, init_db
-from data import CHARACTERS, RELATIONS
+from data import CHARACTERS, EVENTS, CHARACTER_EVENTS, FAMILY_RELATIONS
 
 def insert_characters():
     conn = get_connection()
@@ -26,22 +26,58 @@ def insert_characters():
     print(f"已插入 {len(CHARACTERS)} 个人物")
     conn.close()
 
-def insert_relations():
+def insert_events():
     conn = get_connection()
     cursor = conn.cursor()
     
-    for rel in RELATIONS:
+    for event in EVENTS:
         cursor.execute('''
-            INSERT INTO relations (char_id_1, char_id_2, relation_type, event_name)
-            VALUES (?, ?, ?, ?)
-        ''', rel)
+            INSERT INTO events (event_name, event_type)
+            VALUES (?, ?)
+        ''', (event['name'], event['type']))
     
     conn.commit()
-    print(f"已插入 {len(RELATIONS)} 条关系")
+    print(f"已插入 {len(EVENTS)} 个事件")
+    conn.close()
+
+def insert_character_events():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # 获取事件ID映射
+    cursor.execute('SELECT id, event_name FROM events')
+    event_map = {row['event_name']: row['id'] for row in cursor.fetchall()}
+    
+    for char_id, event_name in CHARACTER_EVENTS:
+        event_id = event_map.get(event_name)
+        if event_id:
+            cursor.execute('''
+                INSERT INTO character_events (character_id, event_id)
+                VALUES (?, ?)
+            ''', (char_id, event_id))
+    
+    conn.commit()
+    print(f"已插入 {len(CHARACTER_EVENTS)} 条人物-事件关联")
+    conn.close()
+
+def insert_family_relations():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    for char_id_1, char_id_2, relation_name in FAMILY_RELATIONS:
+        cursor.execute('''
+            INSERT INTO family_relations (char_id_1, char_id_2, relation_name)
+            VALUES (?, ?, ?)
+        ''', (char_id_1, char_id_2, relation_name))
+    
+    conn.commit()
+    print(f"已插入 {len(FAMILY_RELATIONS)} 条亲属关系")
     conn.close()
 
 if __name__ == '__main__':
     init_db()
     insert_characters()
-    insert_relations()
+    insert_events()
+    insert_character_events()
+    insert_family_relations()
     print("数据初始化完成！")

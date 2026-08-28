@@ -29,17 +29,37 @@ def init_db():
     )
     ''')
     
-    # 关系表
+    # 事件表
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS relations (
+    CREATE TABLE IF NOT EXISTS events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        event_name TEXT NOT NULL UNIQUE,
+        event_type TEXT NOT NULL CHECK(event_type IN ('战争', '事件'))
+    )
+    ''')
+    
+    # 人物-事件关联表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS character_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        character_id INTEGER NOT NULL,
+        event_id INTEGER NOT NULL,
+        FOREIGN KEY (character_id) REFERENCES characters(id),
+        FOREIGN KEY (event_id) REFERENCES events(id),
+        UNIQUE(character_id, event_id)
+    )
+    ''')
+    
+    # 亲属关系表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS family_relations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         char_id_1 INTEGER NOT NULL,
         char_id_2 INTEGER NOT NULL,
-        relation_type TEXT NOT NULL CHECK(relation_type IN ('战争', '事件', '亲属')),
-        event_name TEXT,
+        relation_name TEXT NOT NULL,
         FOREIGN KEY (char_id_1) REFERENCES characters(id),
         FOREIGN KEY (char_id_2) REFERENCES characters(id),
-        UNIQUE(char_id_1, char_id_2, relation_type, event_name)
+        UNIQUE(char_id_1, char_id_2)
     )
     ''')
     
