@@ -251,6 +251,11 @@ def make_guess(room_code, player, character_name):
     # 获取答案人物
     answer_char = get_character_by_id(room['answer_id'])
     
+    # 打印日志
+    guess_name = guess_char['surname'] + guess_char['name']
+    answer_name = answer_char['surname'] + answer_char['name']
+    print(f"[猜测日志] {player} - 猜测: {guess_name} - 答案: {answer_name}")
+    
     # 记录猜测
     cursor.execute('SELECT COUNT(*) as count FROM guesses WHERE room_id = ?', (room['id'],))
     guess_count = cursor.fetchone()['count']

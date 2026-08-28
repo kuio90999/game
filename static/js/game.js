@@ -228,6 +228,8 @@ function displayGuessResult(characterName, result) {
             <div class="result-title">恭喜你猜对了！</div>
             <div>答案就是【${result.answer.surname}${result.answer.name}】！</div>
         `;
+        // 显示"再来一个回合"按钮
+        document.getElementById('btn-new-game').style.display = 'inline-block';
     } else {
         gameResult.className = 'game-result show wrong';
         
@@ -409,6 +411,31 @@ document.addEventListener('DOMContentLoaded', function() {
             showScreen('main-menu');
             gameState.roomCode = null;
             gameState.playerName = null;
+        }
+    });
+    
+    // 再来一个回合
+    document.getElementById('btn-new-game').addEventListener('click', async () => {
+        try {
+            const result = await apiCall('/api/create', 'POST', { player: gameState.playerName });
+            
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+            
+            gameState.roomCode = result.room_code;
+            
+            // 重置游戏界面
+            document.getElementById('game-room-code').textContent = result.room_code;
+            document.getElementById('game-result').innerHTML = '';
+            document.getElementById('game-result').className = 'game-result';
+            document.getElementById('guess-list').innerHTML = '';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('btn-new-game').style.display = 'none';
+            
+        } catch (error) {
+            console.error('创建新房间失败:', error);
         }
     });
 });

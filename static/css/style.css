@@ -89,9 +89,19 @@ header .subtitle {
     color: white;
 }
 
+.btn-success {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    color: white;
+}
+
 .btn-small {
     padding: 8px 16px;
     font-size: 0.9em;
+}
+
+.game-header-buttons {
+    display: flex;
+    gap: 10px;
 }
 
 /* 表单样式 */
