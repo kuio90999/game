@@ -196,7 +196,6 @@ async function makeGuess() {
         });
         
         if (result.error) {
-            alert(result.error);
             return;
         }
         
@@ -214,7 +213,7 @@ async function makeGuess() {
         }
         
     } catch (error) {
-        alert('猜测失败，请重试！');
+        console.error('猜测失败:', error);
     }
 }
 
