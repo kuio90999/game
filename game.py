@@ -139,26 +139,34 @@ def compare_characters(guess_char, answer_char):
             hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": "不一致"})
     
     # 生年
-    if guess_char['birth_year'] and answer_char['birth_year']:
+    if guess_char['birth_year'] is None and answer_char['birth_year'] is None:
+        hints.append({"attr": "生年", "value": "不详", "status": "一致"})
+    elif guess_char['birth_year'] is None:
+        hints.append({"attr": "生年", "value": "不详", "status": "不一致"})
+    elif answer_char['birth_year'] is None:
+        hints.append({"attr": "生年", "value": str(guess_char['birth_year']), "status": "不一致"})
+    else:
         if guess_char['birth_year'] == answer_char['birth_year']:
             hints.append({"attr": "生年", "value": str(guess_char['birth_year']), "status": "一致"})
         elif guess_char['birth_year'] < answer_char['birth_year']:
             hints.append({"attr": "生年", "value": str(guess_char['birth_year']), "status": "更早"})
         else:
             hints.append({"attr": "生年", "value": str(guess_char['birth_year']), "status": "更晚"})
-    else:
-        hints.append({"attr": "生年", "value": str(guess_char['birth_year']) if guess_char['birth_year'] else "无", "status": "不一致"})
     
     # 卒年
-    if guess_char['death_year'] and answer_char['death_year']:
+    if guess_char['death_year'] is None and answer_char['death_year'] is None:
+        hints.append({"attr": "卒年", "value": "不详", "status": "一致"})
+    elif guess_char['death_year'] is None:
+        hints.append({"attr": "卒年", "value": "不详", "status": "不一致"})
+    elif answer_char['death_year'] is None:
+        hints.append({"attr": "卒年", "value": str(guess_char['death_year']), "status": "不一致"})
+    else:
         if guess_char['death_year'] == answer_char['death_year']:
             hints.append({"attr": "卒年", "value": str(guess_char['death_year']), "status": "一致"})
         elif guess_char['death_year'] < answer_char['death_year']:
             hints.append({"attr": "卒年", "value": str(guess_char['death_year']), "status": "更早"})
         else:
             hints.append({"attr": "卒年", "value": str(guess_char['death_year']), "status": "更晚"})
-    else:
-        hints.append({"attr": "卒年", "value": str(guess_char['death_year']) if guess_char['death_year'] else "无", "status": "不一致"})
     
     # 朝代
     if guess_char['dynasty'] == answer_char['dynasty']:

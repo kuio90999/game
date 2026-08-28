@@ -118,7 +118,7 @@ CHARACTERS = [
     {"surname": "祝", "name": "融", "courtesy_name": "无", "birth_year": 180, "death_year": 230, "birthplace": "云南曲靖", "dynasty": "三国", "force": "孟获势力", "identity": "女性", "traits": "善武"},
     {"surname": "貂", "name": "蝉", "courtesy_name": "无", "birth_year": 170, "death_year": 200, "birthplace": "甘肃临洮", "dynasty": "三国", "force": "吕布势力", "identity": "女性", "traits": "俊美"},
     {"surname": "韩", "name": "馥", "courtesy_name": "无", "birth_year": 150, "death_year": 191, "birthplace": "河南许昌", "dynasty": "东汉", "force": "韩馥势力", "identity": "诸侯", "traits": "善政"},
-    {"surname": "潘", "name": "凤", "courtesy_name": "无", "birth_year": 155, "death_year": 191, "birthplace": "河南", "dynasty": "东汉", "force": "韩馥势力", "identity": "武将", "traits": "善武"},
+    {"surname": "潘", "name": "凤", "courtesy_name": "无", "birth_year": None, "death_year": None, "birthplace": "河南", "dynasty": "东汉", "force": "韩馥势力", "identity": "武将", "traits": "善武"},
     {"surname": "王", "name": "朗", "courtesy_name": "景兴", "birth_year": 152, "death_year": 228, "birthplace": "山东郯城", "dynasty": "三国", "force": "东汉朝廷", "identity": "文臣", "traits": "善辩·善政·世家大族"},
     {"surname": "乐", "name": "进", "courtesy_name": "文谦", "birth_year": 160, "death_year": 218, "birthplace": "河南清丰", "dynasty": "三国", "force": "曹魏", "identity": "武将", "traits": "善武·出身寒微"},
     {"surname": "蒋", "name": "干", "courtesy_name": "子翼", "birth_year": 170, "death_year": 220, "birthplace": "安徽寿县", "dynasty": "三国", "force": "东吴", "identity": "谋士", "traits": "善辩"},
