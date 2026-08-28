@@ -3,7 +3,8 @@ const gameState = {
     currentScreen: 'main-menu',
     roomCode: null,
     playerName: null,
-    isPlayer1: false
+    isPlayer1: false,
+    characters: [] // 人物列表
 };
 
 // API调用函数
@@ -285,8 +286,81 @@ function displayGuessResult(characterName, result) {
     addGuessToList(characterName, result);
 }
 
+// 获取人物列表
+async function loadCharacters() {
+    try {
+        const characters = await apiCall('/api/characters');
+        if (characters && !characters.error) {
+            gameState.characters = characters;
+        }
+    } catch (error) {
+        console.error('加载人物列表失败:', error);
+    }
+}
+
+// 模糊搜索人物
+function searchCharacters(query) {
+    if (!query || query.length === 0) {
+        return [];
+    }
+    
+    query = query.toLowerCase();
+    return gameState.characters.filter(char => {
+        const fullName = char.surname + char.name;
+        return fullName.toLowerCase().includes(query);
+    }).slice(0, 10); // 最多显示10个结果
+}
+
+// 显示下拉框
+function showAutocomplete() {
+    const input = document.getElementById('guess-input');
+    const list = document.getElementById('autocomplete-list');
+    const query = input.value.trim();
+    
+    if (query.length === 0) {
+        list.style.display = 'none';
+        return;
+    }
+    
+    const results = searchCharacters(query);
+    
+    if (results.length === 0) {
+        list.style.display = 'none';
+        return;
+    }
+    
+    list.innerHTML = '';
+    results.forEach(char => {
+        const fullName = char.surname + char.name;
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.innerHTML = `
+            <span class="autocomplete-name">${fullName}</span>
+            <span class="autocomplete-info">${char.force} · ${char.identity}</span>
+        `;
+        item.addEventListener('click', () => {
+            input.value = fullName;
+            list.style.display = 'none';
+            input.focus();
+        });
+        list.appendChild(item);
+    });
+    
+    list.style.display = 'block';
+}
+
+// 隐藏下拉框
+function hideAutocomplete() {
+    setTimeout(() => {
+        document.getElementById('autocomplete-list').style.display = 'none';
+    }, 200);
+}
+
 // 事件监听器
 document.addEventListener('DOMContentLoaded', function() {
+    // 加载人物列表
+    loadCharacters();
+    
     // 主菜单按钮
     document.getElementById('btn-create').addEventListener('click', () => {
         showScreen('create-screen');
@@ -312,9 +386,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 游戏界面
     document.getElementById('btn-guess').addEventListener('click', makeGuess);
-    document.getElementById('guess-input').addEventListener('keypress', (e) => {
+    
+    // 输入框事件
+    const guessInput = document.getElementById('guess-input');
+    guessInput.addEventListener('input', showAutocomplete);
+    guessInput.addEventListener('focus', showAutocomplete);
+    guessInput.addEventListener('blur', hideAutocomplete);
+    guessInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
+            const list = document.getElementById('autocomplete-list');
+            list.style.display = 'none';
             makeGuess();
+        }
+    });
+    
+    // 点击页面其他地方时隐藏下拉框
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.autocomplete-wrapper')) {
+            document.getElementById('autocomplete-list').style.display = 'none';
         }
     });
     

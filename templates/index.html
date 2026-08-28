@@ -65,7 +65,10 @@
 
             <!-- 猜测输入区 -->
             <div class="guess-input-area">
-                <input type="text" id="guess-input" placeholder="请输入人物名字">
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="guess-input" placeholder="请输入人物名字" autocomplete="off">
+                    <div id="autocomplete-list" class="autocomplete-list"></div>
+                </div>
                 <button id="btn-guess" class="btn btn-primary">猜测</button>
             </div>
 
