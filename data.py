@@ -45,7 +45,7 @@ CHARACTERS = [
     {"surname": "廖", "name": "化", "courtesy_name": "元俭", "birth_year": 180, "death_year": 264, "birthplace": "湖北襄阳", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武·长寿"},
     {"surname": "张", "name": "松", "courtesy_name": "子乔", "birth_year": 170, "death_year": 214, "birthplace": "四川成都", "dynasty": "三国", "force": "刘璋势力", "identity": "谋士", "traits": "善谋·善辩·不扬"},
     {"surname": "周", "name": "仓", "courtesy_name": "无", "birth_year": 165, "death_year": 220, "birthplace": "山西运城", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
-    {"surname": "严", "name": "颜", "courtesy_name": "无", "birth_year": 150, "death_year": 220, "birthplace": "四川阆中", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
+    {"surname": "严", "name": "颜", "courtesy_name": "德荣", "birth_year": 150, "death_year": 220, "birthplace": "四川阆中", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
     {"surname": "关", "name": "平", "courtesy_name": "无", "birth_year": 180, "death_year": 220, "birthplace": "山西运城", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武·战死"},
     {"surname": "谯", "name": "周", "courtesy_name": "允南", "birth_year": 201, "death_year": 270, "birthplace": "四川阆中", "dynasty": "三国", "force": "蜀汉", "identity": "文臣", "traits": "善文·善辩"},
     {"surname": "诸葛", "name": "瞻", "courtesy_name": "思远", "birth_year": 227, "death_year": 263, "birthplace": "山东临沂", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "忠义·善政·战死"},
