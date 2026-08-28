@@ -30,19 +30,19 @@ CHARACTERS = [
     {"surname": "关", "name": "羽", "courtesy_name": "云长", "birth_year": 160, "death_year": 220, "birthplace": "山西运城", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "忠义·善武·傲上·战死"},
     {"surname": "张", "name": "飞", "courtesy_name": "益德", "birth_year": 165, "death_year": 221, "birthplace": "河北保定", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "忠义·善武·莽撞"},
     {"surname": "赵", "name": "云", "courtesy_name": "子龙", "birth_year": 168, "death_year": 229, "birthplace": "河北正定", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "忠义·善武·持重"},
-    {"surname": "马", "name": "超", "courtesy_name": "孟起", "birth_year": 176, "death_year": 222, "birthplace": "陕西兴平", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "善武·桀骜"},
+    {"surname": "马", "name": "超", "courtesy_name": "孟起", "birth_year": 176, "death_year": 222, "birthplace": "陕西兴平", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "善武·桀骜·西凉"},
     {"surname": "黄", "name": "忠", "courtesy_name": "汉升", "birth_year": 148, "death_year": 220, "birthplace": "河南南阳", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
     {"surname": "魏", "name": "延", "courtesy_name": "文长", "birth_year": 175, "death_year": 234, "birthplace": "河南信阳", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "善武·桀骜"},
     {"surname": "姜", "name": "维", "courtesy_name": "伯约", "birth_year": 202, "death_year": 264, "birthplace": "甘肃天水", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "忠义·善谋·善武"},
     {"surname": "庞", "name": "统", "courtesy_name": "士元", "birth_year": 179, "death_year": 214, "birthplace": "湖北襄阳", "dynasty": "三国", "force": "蜀汉", "identity": "谋士", "traits": "善谋·战死"},
     {"surname": "法", "name": "正", "courtesy_name": "孝直", "birth_year": 176, "death_year": 220, "birthplace": "陕西眉县", "dynasty": "三国", "force": "蜀汉", "identity": "谋士", "traits": "善谋·峻厉"},
     {"surname": "马", "name": "良", "courtesy_name": "季常", "birth_year": 187, "death_year": 222, "birthplace": "湖北宜城", "dynasty": "三国", "force": "蜀汉", "identity": "文臣", "traits": "善文·善政"},
-    {"surname": "马", "name": "谡", "courtesy_name": "幼常", "birth_year": 190, "death_year": 228, "birthplace": "湖北宜城", "dynasty": "三国", "force": "蜀汉", "identity": "谋士", "traits": "善谋·桀骜"},
+    {"surname": "马", "name": "谡", "courtesy_name": "幼常", "birth_year": 190, "death_year": 228, "birthplace": "湖北宜城", "dynasty": "三国", "force": "蜀汉", "identity": "统帅", "traits": "善谋·傲上"},
     {"surname": "蒋", "name": "琬", "courtesy_name": "公琰", "birth_year": 193, "death_year": 246, "birthplace": "湖南湘乡", "dynasty": "三国", "force": "蜀汉", "identity": "文臣", "traits": "善政·持重"},
     {"surname": "费", "name": "祎", "courtesy_name": "文伟", "birth_year": 195, "death_year": 253, "birthplace": "河南罗山", "dynasty": "三国", "force": "蜀汉", "identity": "文臣", "traits": "善政·谦虚"},
     {"surname": "黄", "name": "月英", "courtesy_name": "无", "birth_year": 183, "death_year": 234, "birthplace": "湖北襄阳", "dynasty": "三国", "force": "蜀汉", "identity": "女性", "traits": "世家大族"},
     {"surname": "廖", "name": "化", "courtesy_name": "元俭", "birth_year": 180, "death_year": 264, "birthplace": "湖北襄阳", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武·长寿"},
-    {"surname": "张", "name": "松", "courtesy_name": "子乔", "birth_year": 170, "death_year": 214, "birthplace": "四川成都", "dynasty": "三国", "force": "蜀汉", "identity": "谋士", "traits": "善谋·善辩"},
+    {"surname": "张", "name": "松", "courtesy_name": "子乔", "birth_year": 170, "death_year": 214, "birthplace": "四川成都", "dynasty": "三国", "force": "刘璋势力", "identity": "谋士", "traits": "善谋·善辩"},
     {"surname": "周", "name": "仓", "courtesy_name": "无", "birth_year": 165, "death_year": 220, "birthplace": "山西运城", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
     {"surname": "严", "name": "颜", "courtesy_name": "无", "birth_year": 150, "death_year": 220, "birthplace": "四川阆中", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武"},
     {"surname": "关", "name": "平", "courtesy_name": "无", "birth_year": 180, "death_year": 220, "birthplace": "山西运城", "dynasty": "三国", "force": "蜀汉", "identity": "武将", "traits": "忠义·善武·战死"},
@@ -93,7 +93,7 @@ CHARACTERS = [
     {"surname": "公孙", "name": "瓒", "courtesy_name": "伯珪", "birth_year": 154, "death_year": 199, "birthplace": "河北迁安", "dynasty": "三国", "force": "公孙瓒势力", "identity": "诸侯", "traits": "善武"},
     {"surname": "刘", "name": "表", "courtesy_name": "景升", "birth_year": 142, "death_year": 208, "birthplace": "山东鱼台", "dynasty": "三国", "force": "刘表势力", "identity": "诸侯", "traits": "善文·持重·皇亲国戚"},
     {"surname": "刘", "name": "璋", "courtesy_name": "季玉", "birth_year": 160, "death_year": 219, "birthplace": "湖北天门", "dynasty": "三国", "force": "刘璋势力", "identity": "诸侯", "traits": "仁厚·皇亲国戚"},
-    {"surname": "马", "name": "腾", "courtesy_name": "寿成", "birth_year": 156, "death_year": 211, "birthplace": "陕西兴平", "dynasty": "三国", "force": "马腾势力", "identity": "诸侯", "traits": "忠义·善武"},
+    {"surname": "马", "name": "腾", "courtesy_name": "寿成", "birth_year": 156, "death_year": 211, "birthplace": "陕西兴平", "dynasty": "三国", "force": "马腾势力", "identity": "诸侯", "traits": "忠义·善武·西凉"},
     {"surname": "张", "name": "鲁", "courtesy_name": "公祺", "birth_year": 160, "death_year": 216, "birthplace": "河南平舆", "dynasty": "三国", "force": "张鲁势力", "identity": "诸侯", "traits": "仁厚"},
     {"surname": "陶", "name": "谦", "courtesy_name": "恭祖", "birth_year": 132, "death_year": 194, "birthplace": "安徽当涂", "dynasty": "三国", "force": "陶谦势力", "identity": "诸侯", "traits": "善政·仁厚"},
     {"surname": "孔", "name": "融", "courtesy_name": "文举", "birth_year": 153, "death_year": 208, "birthplace": "山东曲阜", "dynasty": "三国", "force": "孔融势力", "identity": "诸侯", "traits": "善文·善辩·世家大族"},
@@ -115,6 +115,16 @@ CHARACTERS = [
     {"surname": "邢", "name": "道荣", "courtesy_name": "无", "birth_year": 165, "death_year": 208, "birthplace": "湖南零陵", "dynasty": "三国", "force": "刘表势力", "identity": "武将", "traits": "善武"},
     {"surname": "祝", "name": "融", "courtesy_name": "无", "birth_year": 180, "death_year": 230, "birthplace": "云南曲靖", "dynasty": "三国", "force": "孟获势力", "identity": "女性", "traits": "善武"},
     {"surname": "貂", "name": "蝉", "courtesy_name": "无", "birth_year": 170, "death_year": 200, "birthplace": "甘肃临洮", "dynasty": "三国", "force": "吕布势力", "identity": "女性", "traits": "无"},
+    {"surname": "韩", "name": "馥", "courtesy_name": "无", "birth_year": 150, "death_year": 191, "birthplace": "河南许昌", "dynasty": "东汉", "force": "韩馥势力", "identity": "诸侯", "traits": "善政"},
+    {"surname": "潘", "name": "凤", "courtesy_name": "无", "birth_year": 155, "death_year": 191, "birthplace": "河南", "dynasty": "东汉", "force": "韩馥势力", "identity": "武将", "traits": "善武"},
+    {"surname": "王", "name": "朗", "courtesy_name": "景兴", "birth_year": 152, "death_year": 228, "birthplace": "山东郯城", "dynasty": "三国", "force": "东汉朝廷", "identity": "文臣", "traits": "善辩·善政·世家大族"},
+    {"surname": "乐", "name": "进", "courtesy_name": "文谦", "birth_year": 160, "death_year": 218, "birthplace": "河南清丰", "dynasty": "三国", "force": "曹魏", "identity": "武将", "traits": "善武·出身寒微"},
+    {"surname": "蒋", "name": "干", "courtesy_name": "子翼", "birth_year": 170, "death_year": 220, "birthplace": "安徽寿县", "dynasty": "三国", "force": "东吴", "identity": "谋士", "traits": "善辩"},
+    {"surname": "蒋", "name": "钦", "courtesy_name": "公奕", "birth_year": 165, "death_year": 220, "birthplace": "安徽寿县", "dynasty": "三国", "force": "东吴", "identity": "武将", "traits": "善武·忠义"},
+    {"surname": "韩", "name": "遂", "courtesy_name": "文约", "birth_year": 150, "death_year": 215, "birthplace": "甘肃兰州", "dynasty": "三国", "force": "韩遂势力", "identity": "诸侯", "traits": "善武·西凉"},
+    {"surname": "臧", "name": "霸", "courtesy_name": "宣高", "birth_year": 165, "death_year": 230, "birthplace": "山东泰山", "dynasty": "三国", "force": "曹魏", "identity": "武将", "traits": "善武·忠义"},
+    {"surname": "司马", "name": "徽", "courtesy_name": "德操", "birth_year": 145, "death_year": 208, "birthplace": "河南禹州", "dynasty": "东汉", "force": "无", "identity": "民间", "traits": "善谋·出世"},
+    {"surname": "庞", "name": "德", "courtesy_name": "令明", "birth_year": 170, "death_year": 219, "birthplace": "甘肃天水", "dynasty": "三国", "force": "曹魏", "identity": "武将", "traits": "善武·忠义·西凉"},
 ]
 
 RELATIONS = [
@@ -372,4 +382,9 @@ RELATIONS = [
     (100, 110, "亲属", "夫妻"),  # 孟获-祝融
     (26, 42, "亲属", "夫妻"),  # 诸葛亮-黄月英
     (9, 23, "亲属", "夫妻"),  # 司马懿-张春华
+    
+    # 水镜先生、诸葛亮、庞统的关系
+    (126, 26, "事件", "水镜推荐"),  # 司马徽-诸葛亮
+    (126, 37, "事件", "水镜推荐"),  # 司马徽-庞统
+    (26, 37, "事件", "卧龙凤雏"),  # 诸葛亮-庞统
 ]
