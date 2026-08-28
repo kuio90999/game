@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三国人物猜猜猜</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>三国人物猜猜猜</h1>
+            <p class="subtitle">猜出系统预设的三国人物！</p>
+        </header>
+
+        <!-- 主菜单 -->
+        <div id="main-menu" class="screen active">
+            <div class="menu-buttons">
+                <button id="btn-create" class="btn btn-primary">创建房间</button>
+                <button id="btn-join" class="btn btn-secondary">加入房间</button>
+                <button id="btn-characters" class="btn btn-info">人物列表</button>
+            </div>
+        </div>
+
+        <!-- 创建房间界面 -->
+        <div id="create-screen" class="screen">
+            <h2>创建房间</h2>
+            <div class="form-group">
+                <label for="create-name">你的名字：</label>
+                <input type="text" id="create-name" placeholder="请输入你的名字">
+            </div>
+            <div class="button-group">
+                <button id="btn-create-confirm" class="btn btn-primary">创建</button>
+                <button id="btn-create-back" class="btn btn-secondary">返回</button>
+            </div>
+            <div id="create-result" class="result"></div>
+        </div>
+
+        <!-- 加入房间界面 -->
+        <div id="join-screen" class="screen">
+            <h2>加入房间</h2>
+            <div class="form-group">
+                <label for="join-name">你的名字：</label>
+                <input type="text" id="join-name" placeholder="请输入你的名字">
+            </div>
+            <div class="form-group">
+                <label for="join-code">房间码：</label>
+                <input type="text" id="join-code" placeholder="请输入房间码">
+            </div>
+            <div class="button-group">
+                <button id="btn-join-confirm" class="btn btn-primary">加入</button>
+                <button id="btn-join-back" class="btn btn-secondary">返回</button>
+            </div>
+            <div id="join-result" class="result"></div>
+        </div>
+
+        <!-- 游戏界面 -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="room-info">
+                    <span>房间码：<strong id="game-room-code"></strong></span>
+                    <span>玩家：<strong id="game-player-name"></strong></span>
+                </div>
+                <button id="btn-game-back" class="btn btn-small btn-secondary">退出游戏</button>
+            </div>
+
+            <!-- 猜测输入区 -->
+            <div class="guess-input-area">
+                <input type="text" id="guess-input" placeholder="请输入人物名字">
+                <button id="btn-guess" class="btn btn-primary">猜测</button>
+            </div>
+
+            <!-- 游戏结果区 -->
+            <div id="game-result" class="game-result"></div>
+
+            <!-- 猜测记录区 -->
+            <div class="guess-history">
+                <h3>猜测记录</h3>
+                <div id="guess-list"></div>
+            </div>
+        </div>
+
+        <!-- 人物列表界面 -->
+        <div id="characters-screen" class="screen">
+            <h2>人物列表</h2>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜索人物...">
+            </div>
+            <div id="characters-list" class="characters-list"></div>
+            <button id="btn-characters-back" class="btn btn-secondary">返回</button>
+        </div>
+    </div>
+
+    <script src="/static/js/game.js"></script>
+</body>
+</html>
