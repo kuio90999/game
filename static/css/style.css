@@ -316,6 +316,36 @@ header .subtitle {
     margin-right: 10px;
 }
 
+.summary-attr {
+    font-weight: bold;
+    color: #a0a0a0;
+    margin-right: 10px;
+}
+
+.summary-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.summary-tag {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.summary-tag.tag-match {
+    background: rgba(76, 175, 80, 0.3);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+
+.summary-tag.tag-no-match {
+    background: rgba(158, 158, 158, 0.2);
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+}
+
 /* 猜测记录区 */
 .guess-history {
     margin-top: 30px;

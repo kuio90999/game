@@ -259,7 +259,19 @@ function displayGuessResult(characterName, result) {
             hintsHtml += '<ul class="summary-list">';
             
             result.summary.forEach(item => {
-                hintsHtml += `<li>${item}</li>`;
+                if (item.type === 'text') {
+                    // 普通文本
+                    hintsHtml += `<li>${item.content}</li>`;
+                } else if (item.type === 'tags') {
+                    // 标签列表（势力、身份、特质）
+                    hintsHtml += `<li><span class="summary-attr">${item.attr}：</span>`;
+                    hintsHtml += '<span class="summary-tags">';
+                    item.items.forEach(tag => {
+                        const tagClass = tag.match ? 'tag-match' : 'tag-no-match';
+                        hintsHtml += `<span class="summary-tag ${tagClass}">${tag.value}</span>`;
+                    });
+                    hintsHtml += '</span></li>';
+                }
             });
             
             hintsHtml += '</ul>';

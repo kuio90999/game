@@ -325,7 +325,11 @@ def summarize_hints(guesses, answer_char, current_hints=None):
     confirmed_identity = None
     confirmed_dynasty = None
     confirmed_province = None
-    confirmed_traits = set()
+    
+    # 收集所有猜测过的势力、身份、特质（用于显示匹配/不匹配）
+    guessed_forces = set()
+    guessed_identities = set()
+    guessed_traits = set()
     
     # 收集字、姓等信息
     confirmed_surname = None
@@ -335,20 +339,6 @@ def summarize_hints(guesses, answer_char, current_hints=None):
     
     # 从猜测记录中提取信息
     for guess in guesses:
-        # 获取该猜测的提示信息
-        guess_char = {
-            'surname': guess['surname'],
-            'name': guess['name'],
-            'courtesy_name': guess['courtesy_name'],
-            'birth_year': guess['birth_year'],
-            'death_year': guess['death_year'],
-            'birthplace': guess['birthplace'],
-            'dynasty': guess['dynasty'],
-            'force': guess['force'],
-            'identity': guess['identity'],
-            'traits': guess['traits']
-        }
-        
         # 比较生卒年，推断范围
         if guess['birth_year'] and answer_char['birth_year']:
             if guess['birth_year'] < answer_char['birth_year']:
@@ -396,64 +386,78 @@ def summarize_hints(guesses, answer_char, current_hints=None):
         if guess['dynasty'] == answer_char['dynasty']:
             confirmed_dynasty = guess['dynasty']
         
+        # 收集猜测过的势力、身份、特质
+        guessed_forces.add(guess['force'])
+        guessed_identities.add(guess['identity'])
+        if guess['traits']:
+            guessed_traits.update(guess['traits'].split('·'))
+        
         # 检查出生地
         guess_province = guess['birthplace'][:2] if guess['birthplace'] else None
         answer_province = answer_char['birthplace'][:2] if answer_char['birthplace'] else None
         if guess_province == answer_province:
             confirmed_province = guess_province
-        
-        # 检查特质
-        if guess['traits'] and answer_char['traits']:
-            guess_traits = set(guess['traits'].split('·'))
-            answer_traits = set(answer_char['traits'].split('·'))
-            common_traits = guess_traits & answer_traits
-            confirmed_traits.update(common_traits)
     
     # 计算生卒年范围
     if birth_min is not None or birth_max is not None:
         if birth_min is not None and birth_max is not None:
-            summary.append(f"生年：{birth_min} - {birth_max}")
+            summary.append({"type": "text", "content": f"生年：{birth_min} - {birth_max}"})
         elif birth_min is not None:
-            summary.append(f"生年：{birth_min} -")
+            summary.append({"type": "text", "content": f"生年：{birth_min} -"})
         elif birth_max is not None:
-            summary.append(f"生年：- {birth_max}")
+            summary.append({"type": "text", "content": f"生年：- {birth_max}"})
     
     if death_min is not None or death_max is not None:
         if death_min is not None and death_max is not None:
-            summary.append(f"卒年：{death_min} - {death_max}")
+            summary.append({"type": "text", "content": f"卒年：{death_min} - {death_max}"})
         elif death_min is not None:
-            summary.append(f"卒年：{death_min} -")
+            summary.append({"type": "text", "content": f"卒年：{death_min} -"})
         elif death_max is not None:
-            summary.append(f"卒年：- {death_max}")
+            summary.append({"type": "text", "content": f"卒年：- {death_max}"})
     
     # 已确认的姓、名、字
     if confirmed_surname:
-        summary.append(f"姓：{confirmed_surname}")
+        summary.append({"type": "text", "content": f"姓：{confirmed_surname}"})
     
     if confirmed_name:
-        summary.append(f"名：{confirmed_name}")
+        summary.append({"type": "text", "content": f"名：{confirmed_name}"})
     
     if confirmed_courtesy_name:
-        summary.append(f"字：{confirmed_courtesy_name}")
+        summary.append({"type": "text", "content": f"字：{confirmed_courtesy_name}"})
     
     if common_chars_in_courtesy_name:
-        summary.append(f"字中有相同字符：{'、'.join(common_chars_in_courtesy_name)}")
+        summary.append({"type": "text", "content": f"字中有相同字符：{'、'.join(common_chars_in_courtesy_name)}"})
     
-    # 已确认的属性
-    if confirmed_force:
-        summary.append(f"势力：{confirmed_force}")
+    # 势力（显示所有猜测过的势力，匹配的绿色，不匹配的灰色）
+    if guessed_forces:
+        force_items = []
+        for force in guessed_forces:
+            is_match = (force == answer_char['force'])
+            force_items.append({"value": force, "match": is_match})
+        summary.append({"type": "tags", "attr": "势力", "items": force_items})
     
-    if confirmed_identity:
-        summary.append(f"身份：{confirmed_identity}")
+    # 身份（显示所有猜测过的身份，匹配的绿色，不匹配的灰色）
+    if guessed_identities:
+        identity_items = []
+        for identity in guessed_identities:
+            is_match = (identity == answer_char['identity'])
+            identity_items.append({"value": identity, "match": is_match})
+        summary.append({"type": "tags", "attr": "身份", "items": identity_items})
     
+    # 特质（显示所有猜测过的特质，匹配的绿色，不匹配的灰色）
+    if guessed_traits:
+        trait_items = []
+        for trait in guessed_traits:
+            is_match = (trait in answer_char['traits'].split('·') if answer_char['traits'] else False)
+            trait_items.append({"value": trait, "match": is_match})
+        summary.append({"type": "tags", "attr": "特质", "items": trait_items})
+    
+    # 已确认的其他属性
     if confirmed_dynasty:
-        summary.append(f"朝代：{confirmed_dynasty}")
+        summary.append({"type": "text", "content": f"朝代：{confirmed_dynasty}"})
     
     if confirmed_province:
-        summary.append(f"出生地：{confirmed_province}省")
-    
-    if confirmed_traits:
-        summary.append(f"特质：{'、'.join(confirmed_traits)}")
+        summary.append({"type": "text", "content": f"出生地：{confirmed_province}省"})
     
     return summary
 
