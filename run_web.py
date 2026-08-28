@@ -32,9 +32,8 @@ def setup():
 if __name__ == '__main__':
     setup()
     print("="*50)
-    print("三国人物猜猜猜 - 网页版")
     print("="*50)
     print("服务器启动中...")
     print("请在浏览器中访问: http://localhost:5000")
     print("="*50)
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    app.run(debug=True, port=8080, host='0.0.0.0')
