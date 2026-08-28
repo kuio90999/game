@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(__file__))
 
 from database import init_db
-from init_data import insert_characters, insert_relations
+from init_data import insert_characters, insert_events, insert_character_events, insert_family_relations
 from api import app
 
 def setup():
@@ -22,7 +22,9 @@ def setup():
     if count == 0:
         print("正在导入三国人物数据...")
         insert_characters()
-        insert_relations()
+        insert_events()
+        insert_character_events()
+        insert_family_relations()
         print("数据导入完成！")
     else:
         print(f"数据库已存在 {count} 个人物")
