@@ -125,20 +125,18 @@ def compare_characters(guess_char, answer_char):
         hints.append({"attr": "名", "value": guess_char['name'], "status": "不一致"})
     
     # 字
-    if guess_char['courtesy_name'] and answer_char['courtesy_name']:
-        if guess_char['courtesy_name'] == answer_char['courtesy_name']:
-            hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": "一致"})
-        else:
-            # 检查是否有部分相同的字
+    if guess_char['courtesy_name'] == answer_char['courtesy_name']:
+        hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": "一致"})
+    else:
+        # 检查是否有部分相同的字
+        if guess_char['courtesy_name'] != '无' and answer_char['courtesy_name'] != '无':
             common_chars = set(guess_char['courtesy_name']) & set(answer_char['courtesy_name'])
             if common_chars:
                 hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": f"有相同的字：{'、'.join(common_chars)}"})
             else:
                 hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": "不一致"})
-    elif not guess_char['courtesy_name'] and not answer_char['courtesy_name']:
-        hints.append({"attr": "字", "value": "无", "status": "一致"})
-    else:
-        hints.append({"attr": "字", "value": guess_char['courtesy_name'] or "无", "status": "不一致"})
+        else:
+            hints.append({"attr": "字", "value": guess_char['courtesy_name'], "status": "不一致"})
     
     # 生年
     if guess_char['birth_year'] and answer_char['birth_year']:
@@ -149,7 +147,7 @@ def compare_characters(guess_char, answer_char):
         else:
             hints.append({"attr": "生年", "value": str(guess_char['birth_year']), "status": "更晚"})
     else:
-        hints.append({"attr": "生年", "value": "未知", "status": "未知"})
+        hints.append({"attr": "生年", "value": str(guess_char['birth_year']) if guess_char['birth_year'] else "无", "status": "不一致"})
     
     # 卒年
     if guess_char['death_year'] and answer_char['death_year']:
@@ -160,37 +158,28 @@ def compare_characters(guess_char, answer_char):
         else:
             hints.append({"attr": "卒年", "value": str(guess_char['death_year']), "status": "更晚"})
     else:
-        hints.append({"attr": "卒年", "value": "未知", "status": "未知"})
+        hints.append({"attr": "卒年", "value": str(guess_char['death_year']) if guess_char['death_year'] else "无", "status": "不一致"})
     
     # 朝代
-    if guess_char['dynasty'] and answer_char['dynasty']:
-        if guess_char['dynasty'] == answer_char['dynasty']:
-            hints.append({"attr": "朝代", "value": guess_char['dynasty'], "status": "一致"})
-        else:
-            hints.append({"attr": "朝代", "value": guess_char['dynasty'], "status": "不一致"})
+    if guess_char['dynasty'] == answer_char['dynasty']:
+        hints.append({"attr": "朝代", "value": guess_char['dynasty'], "status": "一致"})
     else:
-        hints.append({"attr": "朝代", "value": "未知", "status": "未知"})
+        hints.append({"attr": "朝代", "value": guess_char['dynasty'], "status": "不一致"})
     
     # 出生地（省）
-    guess_province = guess_char['birthplace'][:2] if guess_char['birthplace'] else None
-    answer_province = answer_char['birthplace'][:2] if answer_char['birthplace'] else None
+    guess_province = guess_char['birthplace'][:2] if guess_char['birthplace'] != '无' else '无'
+    answer_province = answer_char['birthplace'][:2] if answer_char['birthplace'] != '无' else '无'
     
-    if guess_province and answer_province:
-        if guess_province == answer_province:
-            hints.append({"attr": "出生地", "value": guess_char['birthplace'], "status": f"同省：{guess_province}"})
-        else:
-            hints.append({"attr": "出生地", "value": guess_char['birthplace'], "status": "不同省"})
+    if guess_province == answer_province:
+        hints.append({"attr": "出生地", "value": guess_char['birthplace'], "status": f"同省：{guess_province}"})
     else:
-        hints.append({"attr": "出生地", "value": "未知", "status": "未知"})
+        hints.append({"attr": "出生地", "value": guess_char['birthplace'], "status": "不同省"})
     
     # 势力
-    if guess_char['force'] and answer_char['force']:
-        if guess_char['force'] == answer_char['force']:
-            hints.append({"attr": "势力", "value": guess_char['force'], "status": "一致"})
-        else:
-            hints.append({"attr": "势力", "value": guess_char['force'], "status": "不一致"})
+    if guess_char['force'] == answer_char['force']:
+        hints.append({"attr": "势力", "value": guess_char['force'], "status": "一致"})
     else:
-        hints.append({"attr": "势力", "value": "无", "status": "未知"})
+        hints.append({"attr": "势力", "value": guess_char['force'], "status": "不一致"})
     
     # 身份
     if guess_char['identity'] == answer_char['identity']:
@@ -199,17 +188,20 @@ def compare_characters(guess_char, answer_char):
         hints.append({"attr": "身份", "value": guess_char['identity'], "status": "不一致"})
     
     # 特质
-    if guess_char['traits'] and answer_char['traits']:
-        guess_traits = set(guess_char['traits'].split('·'))
-        answer_traits = set(answer_char['traits'].split('·'))
-        common_traits = guess_traits & answer_traits
-        
-        if common_traits:
-            hints.append({"attr": "特质", "value": guess_char['traits'], "status": f"相同：{'、'.join(common_traits)}"})
-        else:
-            hints.append({"attr": "特质", "value": guess_char['traits'], "status": "无相同"})
+    if guess_char['traits'] == answer_char['traits']:
+        hints.append({"attr": "特质", "value": guess_char['traits'], "status": "一致"})
     else:
-        hints.append({"attr": "特质", "value": guess_char['traits'] or "无", "status": "未知"})
+        if guess_char['traits'] != '无' and answer_char['traits'] != '无':
+            guess_traits = set(guess_char['traits'].split('·'))
+            answer_traits = set(answer_char['traits'].split('·'))
+            common_traits = guess_traits & answer_traits
+            
+            if common_traits:
+                hints.append({"attr": "特质", "value": guess_char['traits'], "status": f"相同：{'、'.join(common_traits)}"})
+            else:
+                hints.append({"attr": "特质", "value": guess_char['traits'], "status": "无相同"})
+        else:
+            hints.append({"attr": "特质", "value": guess_char['traits'], "status": "不一致"})
     
     # 关系
     relations = get_relation(guess_char['id'], answer_char['id'])
