@@ -274,110 +274,6 @@ function displayGuessResult(characterName, result) {
     addGuessToList(characterName, result);
 }
 
-// 添加猜测到列表
-function addGuessToList(characterName, result) {
-    const guessList = document.getElementById('guess-list');
-    const guessCount = guessList.children.length + 1;
-    
-    const guessItem = document.createElement('div');
-    guessItem.className = `guess-item ${result.correct ? 'correct' : ''}`;
-    
-    let hintsHtml = '';
-    if (!result.correct && result.hints) {
-        hintsHtml = '<div class="guess-hints">';
-        result.hints.forEach(hint => {
-            let hintClass = 'diff';
-            if (hint.status.includes('一致') || hint.status.includes('相同')) {
-                hintClass = 'same';
-            }
-            
-            hintsHtml += `<span class="guess-hint ${hintClass}">${hint.attr}: ${hint.status}</span>`;
-        });
-        hintsHtml += '</div>';
-    }
-    
-    guessItem.innerHTML = `
-        <div class="guess-name">#${guessCount} ${characterName} ${result.correct ? '✓' : ''}</div>
-        ${hintsHtml}
-    `;
-    
-    guessList.appendChild(guessItem);
-    
-    // 滚动到底部
-    guessList.scrollTop = guessList.scrollHeight;
-}
-
-// 加载人物列表
-async function loadCharacters() {
-    try {
-        const characters = await apiCall('/api/characters');
-        
-        if (characters.error) {
-            alert(characters.error);
-            return;
-        }
-        
-        displayCharacters(characters);
-        showScreen('characters-screen');
-        
-    } catch (error) {
-        alert('加载人物列表失败！');
-    }
-}
-
-// 显示人物列表
-function displayCharacters(characters) {
-    const charactersList = document.getElementById('characters-list');
-    charactersList.innerHTML = '';
-    
-    // 按势力分组
-    const groups = {};
-    characters.forEach(char => {
-        const force = char.force || '其他';
-        if (!groups[force]) {
-            groups[force] = [];
-        }
-        groups[force].push(char);
-    });
-    
-    // 创建势力分组
-    for (const [force, chars] of Object.entries(groups)) {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = 'character-group';
-        
-        let html = `<h3>${force} (${chars.length}人)</h3>`;
-        chars.forEach(char => {
-            const fullName = char.surname + char.name;
-            html += `
-                <div class="character-item">
-                    <span class="character-name">${fullName}</span>
-                    <span class="character-identity">${char.identity}</span>
-                </div>
-            `;
-        });
-        
-        groupDiv.innerHTML = html;
-        charactersList.appendChild(groupDiv);
-    }
-}
-
-// 搜索人物
-function searchCharacters() {
-    const searchText = document.getElementById('search-input').value.trim().toLowerCase();
-    const characterItems = document.querySelectorAll('.character-item');
-    
-    characterItems.forEach(item => {
-        const name = item.querySelector('.character-name').textContent.toLowerCase();
-        const identity = item.querySelector('.character-identity').textContent.toLowerCase();
-        
-        if (name.includes(searchText) || identity.includes(searchText)) {
-            item.style.display = 'flex';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
-
 // 事件监听器
 document.addEventListener('DOMContentLoaded', function() {
     // 主菜单按钮
@@ -387,10 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById('btn-join').addEventListener('click', () => {
         showScreen('join-screen');
-    });
-    
-    document.getElementById('btn-characters').addEventListener('click', () => {
-        loadCharacters();
     });
     
     // 创建房间界面
@@ -422,11 +314,4 @@ document.addEventListener('DOMContentLoaded', function() {
             gameState.playerName = null;
         }
     });
-    
-    // 人物列表界面
-    document.getElementById('btn-characters-back').addEventListener('click', () => {
-        showScreen('main-menu');
-    });
-    
-    document.getElementById('search-input').addEventListener('input', searchCharacters);
 });
