@@ -147,18 +147,22 @@ def api_country_guess():
     if guess_country['id'] == answer_country['id']:
         return jsonify({
             "correct": True,
-            "answer": dict(answer_country)
+            "answer": dict(answer_country),
+            "guess_count": len(country_state['guesses']) + 1
         })
     
     hints = compare_countries(guess_country, answer_country)
     country_state['guesses'].append(dict(guess_country))
     summary = summarize_country_hints(country_state['guesses'], answer_country)
     
+    guess_count = len(country_state['guesses'])
+    
     return jsonify({
         "correct": False,
         "hints": hints,
         "guess": dict(guess_country),
-        "summary": summary
+        "summary": summary,
+        "guess_count": guess_count
     })
 
 if __name__ == '__main__':
