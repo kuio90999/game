@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜一下</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>猜一下</h1>
+            <p class="subtitle">选择一个游戏开始挑战！</p>
+        </header>
+
+        <!-- 主页 -->
+        <div id="home-screen" class="screen active">
+            <div class="game-options">
+                <div class="game-card" onclick="window.location.href='/sanguo'">
+                    <div class="game-icon">三国</div>
+                    <h2>三国人物</h2>
+                    <p>猜出系统预设的三国历史人物</p>
+                </div>
+                <div class="game-card" onclick="window.location.href='/country'">
+                    <div class="game-icon">世界</div>
+                    <h2>世界国家</h2>
+                    <p>猜出系统预设的国家</p>
+                </div>
+                <div class="game-card disabled">
+                    <div class="game-icon">当代</div>
+                    <h2>当代人物</h2>
+                    <p>即将推出...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

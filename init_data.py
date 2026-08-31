@@ -1,5 +1,6 @@
 from database import get_connection, init_db
 from data import CHARACTERS, EVENTS, CHARACTER_EVENTS, FAMILY_RELATIONS
+from country_data import COUNTRIES
 
 def insert_characters():
     conn = get_connection()
@@ -74,10 +75,35 @@ def insert_family_relations():
     print(f"已插入 {len(FAMILY_RELATIONS)} 条亲属关系")
     conn.close()
 
+def insert_countries():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    for country in COUNTRIES:
+        cursor.execute('''
+            INSERT INTO countries (name, capital, country_chars, capital_chars, longitude, latitude, population, area, gdp_rank)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            country['name'],
+            country['capital'],
+            country['country_chars'],
+            country['capital_chars'],
+            country['longitude'],
+            country['latitude'],
+            country['population'],
+            country['area'],
+            country['gdp_rank']
+        ))
+    
+    conn.commit()
+    print(f"已插入 {len(COUNTRIES)} 个国家")
+    conn.close()
+
 if __name__ == '__main__':
     init_db()
     insert_characters()
     insert_events()
     insert_character_events()
     insert_family_relations()
+    insert_countries()
     print("数据初始化完成！")

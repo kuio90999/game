@@ -93,6 +93,22 @@ def init_db():
     )
     ''')
     
+    # 国家表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS countries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        capital TEXT NOT NULL,
+        country_chars INTEGER NOT NULL,
+        capital_chars INTEGER NOT NULL,
+        longitude REAL NOT NULL,
+        latitude REAL NOT NULL,
+        population REAL NOT NULL,
+        area REAL NOT NULL,
+        gdp_rank INTEGER NOT NULL
+    )
+    ''')
+    
     conn.commit()
     conn.close()
 
