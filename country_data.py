@@ -159,4 +159,6 @@ COUNTRIES = [
     {"name": "伯利兹", "capital": "贝尔莫潘", "country_chars": 3, "capital_chars": 4, "longitude": -88.8, "latitude": 17.3, "population": 0.04, "area": 2.3, "gdp_rank": 158},
     {"name": "中非共和国", "capital": "班吉", "country_chars": 5, "capital_chars": 2, "longitude": 18.6, "latitude": 4.4, "population": 0.05, "area": 62, "gdp_rank": 159},
     {"name": "佛得角", "capital": "普拉亚", "country_chars": 3, "capital_chars": 3, "longitude": -23.5, "latitude": 14.9, "population": 0.006, "area": 0.4, "gdp_rank": 160},
+    {"name": "东帝汶", "capital": "帝力", "country_chars": 3, "capital_chars": 2, "longitude": 125.6, "latitude": -8.6, "population": 0.013, "area": 1.5, "gdp_rank": 161},
+    {"name": "梵蒂冈", "capital": "梵蒂冈城", "country_chars": 3, "capital_chars": 4, "longitude": 12.5, "latitude": 41.9, "population": 0.00008, "area": 0.00044, "gdp_rank": 162},
 ]
