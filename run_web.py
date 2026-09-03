@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(__file__))
 
 from database import init_db
-from init_data import insert_characters, insert_events, insert_character_events, insert_family_relations, insert_countries
+from init_data import insert_characters, insert_events, insert_character_events, insert_family_relations, insert_countries, insert_watermargin
 from api import app
 
 def setup():
@@ -24,6 +24,10 @@ def setup():
     cursor.execute('SELECT COUNT(*) as count FROM countries')
     country_count = cursor.fetchone()['count']
     
+    # 检查水浒人物数据
+    cursor.execute('SELECT COUNT(*) as count FROM watermargin')
+    watermargin_count = cursor.fetchone()['count']
+    
     conn.close()
     
     if char_count == 0:
@@ -42,6 +46,13 @@ def setup():
         print("世界国家数据导入完成！")
     else:
         print(f"数据库已存在 {country_count} 个国家")
+    
+    if watermargin_count == 0:
+        print("正在导入水浒人物数据...")
+        insert_watermargin()
+        print("水浒人物数据导入完成！")
+    else:
+        print(f"数据库已存在 {watermargin_count} 个水浒人物")
     
     print("初始化完成！\n")
 

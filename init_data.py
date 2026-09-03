@@ -1,6 +1,7 @@
 from database import get_connection, init_db
 from data import CHARACTERS, EVENTS, CHARACTER_EVENTS, FAMILY_RELATIONS
 from country_data import COUNTRIES
+from watermargin_data import WATERMARGIN
 
 def insert_characters():
     conn = get_connection()
@@ -99,6 +100,36 @@ def insert_countries():
     print(f"已插入 {len(COUNTRIES)} 个国家")
     conn.close()
 
+def insert_watermargin():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    for char in WATERMARGIN:
+        cursor.execute('''
+            INSERT INTO watermargin (surname, name, courtesy_name, nickname, star_rank, star_type, birth_year, death_year, birthplace, identity, pre_mountains, weapon, specialty, traits, ending)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            char['surname'],
+            char['name'],
+            char['courtesy_name'],
+            char['nickname'],
+            char['star_rank'],
+            char['star_type'],
+            char['birth_year'],
+            char['death_year'],
+            char['birthplace'],
+            char['identity'],
+            char['pre_mountains'],
+            char['weapon'],
+            char['specialty'],
+            char['traits'],
+            char['ending']
+        ))
+    
+    conn.commit()
+    print(f"已插入 {len(WATERMARGIN)} 个水浒人物")
+    conn.close()
+
 if __name__ == '__main__':
     init_db()
     insert_characters()
@@ -106,4 +137,5 @@ if __name__ == '__main__':
     insert_character_events()
     insert_family_relations()
     insert_countries()
+    insert_watermargin()
     print("数据初始化完成！")

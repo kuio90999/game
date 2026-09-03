@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜一下 - 水浒人物</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← 返回</a>
+            <h1>水浒人物</h1>
+            <p class="subtitle">猜出系统预设的水浒人物！</p>
+        </header>
+
+        <!-- 游戏界面 -->
+        <div id="game-screen" class="screen active">
+            <!-- 猜测输入区 -->
+            <div class="guess-input-area">
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="guess-input" placeholder="请输入人物名字或绰号" autocomplete="off">
+                    <div id="autocomplete-list" class="autocomplete-list"></div>
+                </div>
+                <button id="btn-guess" class="btn btn-primary">猜测</button>
+            </div>
+
+            <!-- 游戏结果区 -->
+            <div id="game-result" class="game-result"></div>
+
+            <!-- 猜测记录区 -->
+            <div class="guess-history">
+                <h3>猜测记录</h3>
+                <div id="guess-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/watermargin.js"></script>
+</body>
+</html>

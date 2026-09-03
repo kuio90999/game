@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from game import get_all_characters, get_character_by_id, get_character_by_name, compare_characters, summarize_hints, get_relation
 from country_game import get_all_countries, get_country_by_name, get_country_by_id, compare_countries, summarize_country_hints
+from watermargin_game import get_all_watermargin, get_watermargin_by_name, get_watermargin_by_id, compare_watermargin
 import random
 
 app = Flask(__name__, 
@@ -19,6 +20,12 @@ country_state = {
     'guesses': []
 }
 
+# 水浒人物游戏状态
+watermargin_state = {
+    'answer_id': None,
+    'guesses': []
+}
+
 @app.route('/')
 def home():
     """主页"""
@@ -33,6 +40,11 @@ def sanguo():
 def country():
     """世界国家游戏"""
     return render_template('country.html')
+
+@app.route('/watermargin')
+def watermargin():
+    """水浒人物游戏"""
+    return render_template('watermargin.html')
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -163,6 +175,69 @@ def api_country_guess():
         "guess": dict(guess_country),
         "summary": summary,
         "guess_count": guess_count
+    })
+
+# ==================== 水浒人物游戏 API ====================
+
+@app.route('/api/watermargin/characters', methods=['GET'])
+def api_watermargin_characters():
+    """获取水浒人物列表"""
+    chars = get_all_watermargin()
+    return jsonify(chars)
+
+@app.route('/api/watermargin/new-game', methods=['POST'])
+def api_watermargin_new_game():
+    """开始新游戏"""
+    chars = get_all_watermargin()
+    answer = random.choice(chars)
+    watermargin_state['answer_id'] = answer['id']
+    watermargin_state['guesses'] = []
+    
+    return jsonify({
+        'answer': {
+            'id': answer['id'],
+            'nickname': answer['nickname']
+        },
+        'message': '新游戏开始！'
+    })
+
+@app.route('/api/watermargin/guess', methods=['POST'])
+def api_watermargin_guess():
+    """猜测人物"""
+    data = request.json
+    character_name = data.get('character_name')
+    
+    if not character_name:
+        return jsonify({"error": "请输入人物名字"}), 400
+    
+    if not watermargin_state['answer_id']:
+        return jsonify({"error": "游戏未开始"}), 400
+    
+    guess_char = get_watermargin_by_name(character_name)
+    if not guess_char:
+        return jsonify({"error": "人物不存在"}), 400
+    
+    answer_char = get_watermargin_by_id(watermargin_state['answer_id'])
+    
+    guess_name = guess_char['surname'] + guess_char['name']
+    answer_name = answer_char['surname'] + answer_char['name']
+    print(f"[水浒猜测日志] 猜测: {guess_name} - 答案: {answer_name}")
+    
+    if guess_char['id'] == answer_char['id']:
+        return jsonify({
+            "correct": True,
+            "answer": dict(answer_char),
+            "guess_count": len(watermargin_state['guesses']) + 1
+        })
+    
+    hints = compare_watermargin(guess_char, answer_char)
+    watermargin_state['guesses'].append(dict(guess_char))
+    
+    return jsonify({
+        "correct": False,
+        "hints": hints,
+        "guess": dict(guess_char),
+        "guess_count": len(watermargin_state['guesses'])
     })
 
 if __name__ == '__main__':

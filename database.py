@@ -109,6 +109,28 @@ def init_db():
     )
     ''')
     
+    # 水浒人物表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS watermargin (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        surname TEXT NOT NULL,
+        name TEXT NOT NULL,
+        courtesy_name TEXT,
+        nickname TEXT,
+        star_rank INTEGER,
+        star_type TEXT,
+        birth_year INTEGER,
+        death_year INTEGER,
+        birthplace TEXT,
+        identity TEXT,
+        pre_mountains TEXT,
+        weapon TEXT,
+        specialty TEXT,
+        traits TEXT,
+        ending TEXT
+    )
+    ''')
+    
     conn.commit()
     conn.close()
 
