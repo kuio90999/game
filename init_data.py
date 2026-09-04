@@ -106,8 +106,8 @@ def insert_watermargin():
     
     for char in WATERMARGIN:
         cursor.execute('''
-            INSERT INTO watermargin (surname, name, courtesy_name, nickname, star_rank, star_type, birth_year, death_year, birthplace, identity, pre_mountains, weapon, specialty, traits, ending)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO watermargin (surname, name, courtesy_name, nickname, star_rank, star_type, birth_year, death_year, birthplace, identity, pre_mountains, weapon, specialty, traits, ending, battle)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             char['surname'],
             char['name'],
@@ -123,7 +123,8 @@ def insert_watermargin():
             char['weapon'],
             char['specialty'],
             char['traits'],
-            char['ending']
+            char['ending'],
+            char.get('battle', '无')
         ))
     
     conn.commit()

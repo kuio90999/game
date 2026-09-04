@@ -2,7 +2,8 @@
 const gameState = {
     characters: [],
     currentAnswer: null,
-    guessCount: 0
+    guessCount: 0,
+    shownHints: []
 };
 
 // API调用函数
@@ -41,6 +42,21 @@ async function startNewGame() {
         if (result && !result.error) {
             gameState.currentAnswer = result.answer;
             gameState.guessCount = 0;
+            gameState.shownHints = [];
+            
+            // 显示初始提示
+            let hintHtml = '<div class="hint-box">';
+            if (result.initial_hints) {
+                result.initial_hints.forEach(hint => {
+                    hintHtml += `<span>${hint.label}：${hint.value}</span>`;
+                    gameState.shownHints.push(hint.type);
+                });
+            }
+            hintHtml += '</div>';
+            document.getElementById('initial-hint').innerHTML = hintHtml;
+            
+            // 显示提示按钮
+            document.getElementById('btn-hint').style.display = 'inline-block';
             
             // 重置界面
             document.getElementById('game-result').innerHTML = '';
@@ -62,6 +78,31 @@ async function startNewGame() {
         }
     } catch (error) {
         console.error('开始新游戏失败:', error);
+    }
+}
+
+// 获取额外提示
+async function getHint() {
+    try {
+        const result = await apiCall('/api/watermargin/get-hint', 'POST');
+        if (result && !result.error) {
+            // 添加到提示区域
+            const hintBox = document.querySelector('.hint-box');
+            if (hintBox) {
+                const hintSpan = document.createElement('span');
+                hintSpan.textContent = `${result.hint.label}：${result.hint.value}`;
+                hintBox.appendChild(hintSpan);
+            }
+            
+            gameState.shownHints.push(result.hint.type);
+            
+            // 如果没有更多提示，隐藏按钮
+            if (result.remaining_hints === 0) {
+                document.getElementById('btn-hint').style.display = 'none';
+            }
+        }
+    } catch (error) {
+        console.error('获取提示失败:', error);
     }
 }
 

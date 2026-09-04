@@ -23,7 +23,8 @@ country_state = {
 # 水浒人物游戏状态
 watermargin_state = {
     'answer_id': None,
-    'guesses': []
+    'guesses': [],
+    'shown_hints': []  # 已显示的提示项
 }
 
 @app.route('/')
@@ -192,14 +193,70 @@ def api_watermargin_new_game():
     answer = random.choice(chars)
     watermargin_state['answer_id'] = answer['id']
     watermargin_state['guesses'] = []
+    watermargin_state['shown_hints'] = []
+    
+    # 计算姓名和绰号的字数
+    name = answer['surname'] + answer['name']
+    nickname = answer['nickname'] or ''
+    
+    # 生成初始提示（必给姓名和绰号字数）
+    initial_hints = [
+        {"type": "name_chars", "label": "姓名", "value": f"{len(name)}个字"},
+        {"type": "nickname_chars", "label": "绰号", "value": f"{len(nickname)}个字"}
+    ]
+    
+    # 从其他提示项中随机选择2项
+    other_hints = [
+        {"type": "star_type", "label": "星位", "value": answer['star_type']},
+        {"type": "birthplace", "label": "祖籍", "value": answer['birthplace'][:2] + "省"},
+        {"type": "identity", "label": "身份", "value": answer['identity']},
+        {"type": "pre_mountains", "label": "上山前身份", "value": answer['pre_mountains']},
+        {"type": "weapon", "label": "专属武器", "value": "有" if answer['weapon'] != '无' else "无"},
+        {"type": "specialty", "label": "特殊技能", "value": "有" if answer['specialty'] != '无' else "无"},
+        {"type": "ending", "label": "自然死亡", "value": "是" if answer['ending'] in ['善终', '病死', '圆寂', '出家', '归隐'] else "否"},
+        {"type": "battle", "label": "参与战争", "value": answer['battle'] if answer['battle'] != '无' else "未参与"},
+        {"type": "nickname_type", "label": "绰号特点", "value": get_nickname_type(answer['nickname'])}
+    ]
+    
+    # 随机选择2项
+    selected = random.sample(other_hints, 2)
+    initial_hints.extend(selected)
+    
+    # 记录已显示的提示
+    watermargin_state['shown_hints'] = [hint['type'] for hint in initial_hints]
     
     return jsonify({
         'answer': {
             'id': answer['id'],
-            'nickname': answer['nickname']
+            'name_chars': len(name),
+            'nickname_chars': len(nickname)
         },
+        'initial_hints': initial_hints,
         'message': '新游戏开始！'
     })
+
+def get_nickname_type(nickname):
+    """判断绰号类型"""
+    if not nickname:
+        return "无"
+    
+    animals = ['龙', '虎', '蛇', '蝎', '凤', '鹤', '马', '狗', '鼠', '龟', '蛟', '蜃', '雕', '鹰', '豹', '熊', '鹿', '猿', '蛇', '蝎']
+    materials = ['金', '银', '铁', '铜', '玉', '石', '钢']
+    numbers = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '百', '千', '万']
+    
+    has_animal = any(a in nickname for a in animals)
+    has_material = any(m in nickname for m in materials)
+    has_number = any(n in nickname for n in numbers)
+    
+    results = []
+    if has_animal:
+        results.append("动物")
+    if has_material:
+        results.append("材料")
+    if has_number:
+        results.append("数字")
+    
+    return "、".join(results) if results else "都没有"
 
 @app.route('/api/watermargin/guess', methods=['POST'])
 def api_watermargin_guess():
@@ -238,6 +295,42 @@ def api_watermargin_guess():
         "hints": hints,
         "guess": dict(guess_char),
         "guess_count": len(watermargin_state['guesses'])
+    })
+
+@app.route('/api/watermargin/get-hint', methods=['POST'])
+def api_watermargin_get_hint():
+    """获取额外提示"""
+    if not watermargin_state['answer_id']:
+        return jsonify({"error": "游戏未开始"}), 400
+    
+    answer_char = get_watermargin_by_id(watermargin_state['answer_id'])
+    
+    # 所有可选的提示项
+    all_hints = [
+        {"type": "star_type", "label": "星位", "value": answer_char['star_type']},
+        {"type": "birthplace", "label": "祖籍", "value": answer_char['birthplace'][:2] + "省"},
+        {"type": "identity", "label": "身份", "value": answer_char['identity']},
+        {"type": "pre_mountains", "label": "上山前身份", "value": answer_char['pre_mountains']},
+        {"type": "weapon", "label": "专属武器", "value": "有" if answer_char['weapon'] != '无' else "无"},
+        {"type": "specialty", "label": "特殊技能", "value": "有" if answer_char['specialty'] != '无' else "无"},
+        {"type": "ending", "label": "自然死亡", "value": "是" if answer_char['ending'] in ['善终', '病死', '圆寂', '出家', '归隐'] else "否"},
+        {"type": "battle", "label": "参与战争", "value": answer_char['battle'] if answer_char['battle'] != '无' else "未参与"},
+        {"type": "nickname_type", "label": "绰号特点", "value": get_nickname_type(answer_char['nickname'])}
+    ]
+    
+    # 过滤掉已显示的提示
+    available_hints = [h for h in all_hints if h['type'] not in watermargin_state['shown_hints']]
+    
+    if not available_hints:
+        return jsonify({"error": "没有更多提示了"}), 400
+    
+    # 随机选择一项
+    hint = random.choice(available_hints)
+    watermargin_state['shown_hints'].append(hint['type'])
+    
+    return jsonify({
+        "hint": hint,
+        "remaining_hints": len(available_hints) - 1
     })
 
 if __name__ == '__main__':

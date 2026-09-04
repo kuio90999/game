@@ -16,6 +16,14 @@
 
         <!-- 游戏界面 -->
         <div id="game-screen" class="screen active">
+            <!-- 初始提示 -->
+            <div id="initial-hint" class="initial-hint"></div>
+            
+            <!-- 提示按钮 -->
+            <div class="hint-button-area">
+                <button id="btn-hint" class="btn btn-info" style="display: none;" onclick="getHint()">提示</button>
+            </div>
+            
             <!-- 猜测输入区 -->
             <div class="guess-input-area">
                 <div class="autocomplete-wrapper">

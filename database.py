@@ -127,7 +127,8 @@ def init_db():
         weapon TEXT,
         specialty TEXT,
         traits TEXT,
-        ending TEXT
+        ending TEXT,
+        battle TEXT
     )
     ''')
     
