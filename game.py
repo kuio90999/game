@@ -346,6 +346,8 @@ def summarize_hints(guesses, answer_char, current_hints=None):
     birth_max = None  # 生年最大值
     death_min = None  # 卒年最小值
     death_max = None  # 卒年最大值
+    birth_exact = None  # 确切的生年
+    death_exact = None  # 确切的卒年
     
     # 已确认的属性
     confirmed_force = None
@@ -368,7 +370,9 @@ def summarize_hints(guesses, answer_char, current_hints=None):
     for guess in guesses:
         # 比较生卒年，推断范围
         if guess['birth_year'] and answer_char['birth_year']:
-            if guess['birth_year'] < answer_char['birth_year']:
+            if guess['birth_year'] == answer_char['birth_year']:
+                birth_exact = guess['birth_year']
+            elif guess['birth_year'] < answer_char['birth_year']:
                 # 答案生年更晚，所以guess生年是下界
                 if birth_min is None or guess['birth_year'] > birth_min:
                     birth_min = guess['birth_year']
@@ -378,7 +382,9 @@ def summarize_hints(guesses, answer_char, current_hints=None):
                     birth_max = guess['birth_year']
         
         if guess['death_year'] and answer_char['death_year']:
-            if guess['death_year'] < answer_char['death_year']:
+            if guess['death_year'] == answer_char['death_year']:
+                death_exact = guess['death_year']
+            elif guess['death_year'] < answer_char['death_year']:
                 # 答案卒年更晚，所以guess卒年是下界
                 if death_min is None or guess['death_year'] > death_min:
                     death_min = guess['death_year']
@@ -426,7 +432,9 @@ def summarize_hints(guesses, answer_char, current_hints=None):
             confirmed_province = guess_province
     
     # 计算生卒年范围
-    if birth_min is not None or birth_max is not None:
+    if birth_exact:
+        summary.append({"type": "text", "content": f"生年：{birth_exact}"})
+    elif birth_min is not None or birth_max is not None:
         if birth_min is not None and birth_max is not None:
             summary.append({"type": "text", "content": f"生年：{birth_min} - {birth_max}"})
         elif birth_min is not None:
@@ -434,7 +442,9 @@ def summarize_hints(guesses, answer_char, current_hints=None):
         elif birth_max is not None:
             summary.append({"type": "text", "content": f"生年：- {birth_max}"})
     
-    if death_min is not None or death_max is not None:
+    if death_exact:
+        summary.append({"type": "text", "content": f"卒年：{death_exact}"})
+    elif death_min is not None or death_max is not None:
         if death_min is not None and death_max is not None:
             summary.append({"type": "text", "content": f"卒年：{death_min} - {death_max}"})
         elif death_min is not None:
